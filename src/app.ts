@@ -14,6 +14,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Middleware برای لاگ درخواست‌ها
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  console.log('Body:', req.body);
+  next();
+});
+
 // MongoDB connection
 mongoose
   .connect(process.env.MONGODB_URI as string)
