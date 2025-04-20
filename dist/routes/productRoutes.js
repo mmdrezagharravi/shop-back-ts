@@ -7,10 +7,8 @@ const express_1 = __importDefault(require("express"));
 const auth_1 = require("../middlewares/auth");
 const productController_1 = require("../controllers/productController");
 const router = express_1.default.Router();
-// Public routes
 router.get("/", productController_1.getAllProducts);
 router.get("/:id", productController_1.getProductById);
-// Protected routes (e.g. admin-only)
 router.post("/", auth_1.authenticate, productController_1.createProduct);
 router.put("/:id", auth_1.authenticate, productController_1.updateProduct);
 router.delete("/:id", auth_1.authenticate, productController_1.deleteProduct);

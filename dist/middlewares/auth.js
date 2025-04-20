@@ -15,7 +15,7 @@ const authenticate = (req, res, next) => {
     try {
         const payload = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         req.user = payload;
-        next(); // no return
+        next();
     }
     catch (_b) {
         res.sendStatus(403);

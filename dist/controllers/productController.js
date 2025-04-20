@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProduct = exports.updateProduct = exports.getProductById = exports.getAllProducts = exports.createProduct = void 0;
 const Product_1 = __importDefault(require("../models/Product"));
-// Create
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const product = new Product_1.default(req.body);
@@ -26,7 +25,6 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.createProduct = createProduct;
-// Read all
 const getAllProducts = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const products = yield Product_1.default.find();
@@ -37,7 +35,6 @@ const getAllProducts = (_req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getAllProducts = getAllProducts;
-// Read one
 const getProductById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const product = yield Product_1.default.findById(req.params.id);
@@ -52,7 +49,6 @@ const getProductById = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getProductById = getProductById;
-// Update
 const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const updated = yield Product_1.default.findByIdAndUpdate(req.params.id, req.body, {
@@ -70,7 +66,6 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.updateProduct = updateProduct;
-// Delete
 const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const deleted = yield Product_1.default.findByIdAndDelete(req.params.id);
