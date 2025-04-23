@@ -1,8 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
-export const authenticate = (req: Request, res: Response, next: NextFunction): void => {
-  const token = req.headers.authorization?.split(' ')[1];
+export const authenticate = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
     res.sendStatus(401);
     return;
@@ -10,6 +14,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET as string);
+    console.log("payload: ", payload);
     (req as any).user = payload;
     next(); // no return
   } catch {

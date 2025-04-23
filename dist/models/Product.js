@@ -12,4 +12,4 @@ const productSchema = new mongoose_1.default.Schema({
     image: String,
     stock: { type: Number, default: 0 },
 }, { timestamps: true });
-exports.default = mongoose_1.default.model('Product', productSchema);
+exports.default = mongoose_1.default.model("Product", productSchema);

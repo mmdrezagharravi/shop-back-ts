@@ -19,15 +19,15 @@ const User_1 = __importDefault(require("../models/User"));
 const console_1 = require("console");
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username, email, password } = req.body;
+        const { username, email, password, role } = req.body;
         const hashed = yield bcryptjs_1.default.hash(password, 10);
-        const user = new User_1.default({ username, email, password: hashed });
+        const user = new User_1.default({ username, email, role, password: hashed });
         yield user.save();
-        res.status(201).json({ message: 'User created', user });
+        res.status(201).json({ message: "User created", user });
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({ error: 'Signup failed' });
+        res.status(500).json({ error: "Signup failed" });
     }
 });
 exports.signup = signup;
@@ -36,7 +36,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { username, password, emali } = req.body;
         const user = yield User_1.default.findOne({ username });
         if (!user || !(yield bcryptjs_1.default.compare(password, user.password))) {
-            res.status(401).json({ error: 'Invalid credentials' });
+            res.status(401).json({ error: "Invalid credentials" });
             return;
         }
         const token = jsonwebtoken_1.default.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET);
@@ -44,7 +44,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (_a) {
         console.log(console_1.error);
-        res.status(500).json({ error: 'Login failed' });
+        res.status(500).json({ error: "Login failed" });
     }
 });
 exports.login = login;
@@ -53,22 +53,22 @@ const updatePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const { userId, oldPassword, newPassword } = req.body;
         const user = yield User_1.default.findById(userId);
         if (!user) {
-            res.status(401).json({ error: 'User not found !!!' });
+            res.status(401).json({ error: "User not found !!!" });
             return;
         }
         const isMatch = yield bcryptjs_1.default.compare(oldPassword, user.password);
         if (!isMatch) {
-            res.status(401).json({ error: 'old password is incorrect ' });
+            res.status(401).json({ error: "old password is incorrect " });
             return;
         }
         const hashedPassword = yield bcryptjs_1.default.hash(newPassword, 10);
         user.password = hashedPassword;
         yield user.save();
-        res.json({ message: 'password updated :)' });
+        res.json({ message: "password updated :)" });
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'failed to update password !!!' });
+        res.status(500).json({ error: "failed to update password !!!" });
     }
 });
 exports.updatePassword = updatePassword;
@@ -77,7 +77,7 @@ const updateProflile = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const { userId, username, email } = req.body;
         const user = yield User_1.default.findById(userId);
         if (!user) {
-            res.status(404).json({ error: 'User not found' });
+            res.status(404).json({ error: "User not found" });
             return;
         }
         if (username)
@@ -85,17 +85,17 @@ const updateProflile = (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (email) {
             const existingEmail = yield User_1.default.findOne({ email });
             if (existingEmail && existingEmail._id.toString() !== userId) {
-                res.status(400).json({ error: 'Email already in use' });
+                res.status(400).json({ error: "Email already in use" });
                 return;
             }
             user.email = email;
         }
         yield user.save();
-        res.json({ message: 'Profile updated successfully', user });
+        res.json({ message: "Profile updated successfully", user });
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Failed to update profile' });
+        res.status(500).json({ error: "Failed to update profile" });
     }
 });
 exports.updateProflile = updateProflile;
